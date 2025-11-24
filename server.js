@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import connectDB from './config/database.js';
 import chalk from 'chalk';
+import fs from 'fs';
 
 // Routes
 import contactRoutes from './routes/contacts.js';
@@ -45,6 +46,13 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
         }
     }
 }));
+
+// Root route - Welcome page
+app.get('/', (req, res) => {
+    const htmlPath = path.join(__dirname, 'server-homepage.html');
+    const html = fs.readFileSync(htmlPath, 'utf8');
+    res.send(html);
+});
 
 // Public Routes
 app.use('/api/contacts', contactRoutes);
